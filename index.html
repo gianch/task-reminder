@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Task Reminders</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
@@ -113,8 +113,8 @@
 
         .settings-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: max(20px, env(safe-area-inset-top, 20px));
+            right: max(20px, env(safe-area-inset-right, 20px));
             width: 44px;
             height: 44px;
             border-radius: 12px;
@@ -135,8 +135,8 @@
                 width: 56px;
                 height: 56px;
                 font-size: 1.6rem;
-                top: 16px;
-                right: 16px;
+                top: max(16px, env(safe-area-inset-top, 16px));
+                right: max(16px, env(safe-area-inset-right, 16px));
             }
         }
 
@@ -175,6 +175,9 @@
             padding: 30px;
             width: 90%;
             max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             animation: slideUp 0.4s ease;
         }
 
@@ -542,8 +545,8 @@
 
         .add-task-btn {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: max(30px, env(safe-area-inset-bottom, 30px));
+            right: max(30px, env(safe-area-inset-right, 30px));
             width: 64px;
             height: 64px;
             border-radius: 50%;
@@ -563,8 +566,8 @@
                 width: 72px;
                 height: 72px;
                 font-size: 2.5rem;
-                bottom: 24px;
-                right: 24px;
+                bottom: max(24px, env(safe-area-inset-bottom, 24px));
+                right: max(24px, env(safe-area-inset-right, 24px));
             }
         }
 
@@ -574,7 +577,7 @@
 
         .notification {
             position: fixed;
-            top: 20px;
+            top: max(20px, env(safe-area-inset-top, 20px));
             left: 50%;
             transform: translateX(-50%) translateY(-100px);
             background: var(--bg-secondary);
@@ -587,6 +590,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            width: max-content;
+            max-width: calc(100vw - 32px);
         }
 
         .notification.show {
@@ -630,6 +635,47 @@
         @media (max-width: 768px) {
             .setup-notice strong {
                 font-size: 1.15rem;
+            }
+        }
+
+        /* Landscape phones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 8px 16px;
+            }
+
+            header {
+                margin-bottom: 16px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .modal-content {
+                top: 50%;
+                max-height: 85vh;
+                padding: 20px 24px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .btn {
+                padding: 12px;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 360px) {
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 3rem;
             }
         }
     </style>
