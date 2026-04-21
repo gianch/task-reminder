@@ -1,0 +1,13 @@
+{
+  "name": "reminders-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Actions script that sends WhatsApp reminders from Firestore",
+  "main": "check-reminders.js",
+  "dependencies": {
+    "firebase-admin": "^12.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

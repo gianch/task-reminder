@@ -1,0 +1,35 @@
+name: Send WhatsApp Reminders
+
+# Runs every 5 minutes regardless of whether you have the page open.
+# GitHub Actions is the primary reminder delivery mechanism.
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # lets you trigger manually from the Actions tab
+
+jobs:
+  check-reminders:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: scripts
+
+      - name: Check and send due reminders
+        run: node check-reminders.js
+        working-directory: scripts
+        env:
+          # Add this secret in: GitHub repo → Settings → Secrets → Actions
+          # Value: the full JSON content of your Firebase service account key file
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
