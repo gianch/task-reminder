@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Task Reminders</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151b3d;
+            --accent: #00d9ff;
+            --accent-glow: rgba(0, 217, 255, 0.3);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a8c9;
+            --border: #2a3156;
+            --success: #00ff88;
+            --warning: #ffb800;
+            --danger: #ff4757;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+                font-size: 18px;
+            }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0.1;
+            pointer-events: none;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.1; }
+            50% { transform: scale(1.1) rotate(180deg); opacity: 0.15; }
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00ffaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px var(--accent-glow);
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4rem;
+                letter-spacing: 3px;
+            }
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        .settings-btn {
+            position: fixed;
+            top: max(20px, env(safe-area-inset-top, 20px));
+            right: max(20px, env(safe-area-inset-right, 20px));
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--accent);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .settings-btn {
+                width: 56px;
+                height: 56px;
+                font-size: 1.6rem;
+                top: max(16px, env(safe-area-inset-top, 16px));
+                right: max(16px, env(safe-area-inset-right, 16px));
+            }
+        }
+
+        .settings-btn:active {
+            transform: scale(0.95);
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translate(-50%, -40%); opacity: 0; }
+            to { transform: translate(-50%, -50%); opacity: 1; }
+        }
+
+        .modal h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .modal h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                margin-bottom: 24px;
+            }
+        }
+
+        label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            label {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+        }
+
+        input[type="text"], input[type="tel"], input[type="datetime-local"], input[type="number"], textarea {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            input[type="text"], input[type="tel"], input[type="datetime-local"], input[type="number"], textarea {
+                padding: 18px;
+                font-size: 1.1rem;
+                border-radius: 14px;
+            }
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .time-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        select {
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            select {
+                padding: 18px !important;
+                font-size: 1.1rem !important;
+                border-radius: 14px !important;
+            }
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                padding: 20px;
+                font-size: 1.15rem;
+                border-radius: 14px;
+            }
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #00ffaa 100%);
+            color: var(--bg-primary);
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 10px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            margin-top: 10px;
+        }
+
+        .btn-secondary:active {
+            background: var(--border);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .checkbox-group {
+                padding: 18px;
+                gap: 14px;
+                border-radius: 14px;
+            }
+        }
+
+        .checkbox-group:active {
+            background: var(--border);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .checkbox-group input[type="checkbox"] {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.95rem;
+            text-transform: none;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .checkbox-group label {
+                font-size: 1.1rem;
+            }
+        }
+
+        .tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .task-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: taskSlideIn 0.4s ease;
+        }
+
+        @media (max-width: 768px) {
+            .task-card {
+                padding: 24px;
+                border-radius: 18px;
+            }
+        }
+
+        @keyframes taskSlideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .task-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent) 0%, #00ffaa 100%);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .task-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            flex: 1;
+            word-break: break-word;
+        }
+
+        @media (max-width: 768px) {
+            .task-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        .task-delete {
+            background: none;
+            border: none;
+            color: var(--danger);
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0 8px;
+            transition: transform 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .task-delete {
+                font-size: 2rem;
+                padding: 0 12px;
+            }
+        }
+
+        .task-delete:active {
+            transform: scale(0.9);
+        }
+
+        .task-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .task-description {
+                font-size: 1.05rem;
+                line-height: 1.6;
+            }
+        }
+
+        .task-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .task-meta {
+                font-size: 0.95rem;
+                gap: 12px;
+            }
+        }
+
+        .task-tag {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .task-tag {
+                padding: 8px 14px;
+                border-radius: 10px;
+            }
+        }
+
+        .task-tag.time {
+            background: rgba(255, 184, 0, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(255, 184, 0, 0.3);
+        }
+
+        .task-tag.calendar {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .empty-state {
+                padding: 80px 20px;
+            }
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
+            .empty-state-icon {
+                font-size: 5rem;
+            }
+        }
+
+        .empty-state-text {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .empty-state-text {
+                font-size: 1.3rem;
+            }
+        }
+
+        .add-task-btn {
+            position: fixed;
+            bottom: max(30px, env(safe-area-inset-bottom, 30px));
+            right: max(30px, env(safe-area-inset-right, 30px));
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, #00ffaa 100%);
+            border: none;
+            color: var(--bg-primary);
+            font-size: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 30px var(--accent-glow);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .add-task-btn {
+                width: 72px;
+                height: 72px;
+                font-size: 2.5rem;
+                bottom: max(24px, env(safe-area-inset-bottom, 24px));
+                right: max(24px, env(safe-area-inset-right, 24px));
+            }
+        }
+
+        .add-task-btn:active {
+            transform: scale(0.9) rotate(90deg);
+        }
+
+        .notification {
+            position: fixed;
+            top: max(20px, env(safe-area-inset-top, 20px));
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 24px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            z-index: 3000;
+            transition: transform 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: max-content;
+            max-width: calc(100vw - 32px);
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notification.success {
+            border-color: var(--success);
+        }
+
+        .notification.error {
+            border-color: var(--danger);
+        }
+
+        .setup-notice {
+            background: rgba(255, 184, 0, 0.1);
+            border: 1px solid rgba(255, 184, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: var(--warning);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .setup-notice {
+                padding: 18px;
+                font-size: 1rem;
+                line-height: 1.7;
+                border-radius: 14px;
+            }
+        }
+
+        .setup-notice strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .setup-notice strong {
+                font-size: 1.15rem;
+            }
+        }
+
+        /* Landscape phones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 8px 16px;
+            }
+
+            header {
+                margin-bottom: 16px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .modal-content {
+                top: 50%;
+                max-height: 85vh;
+                padding: 20px 24px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .btn {
+                padding: 12px;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 360px) {
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>REMINDERS</h1>
+            <div class="subtitle">Personal Task Manager</div>
+        </header>
+
+        <button class="settings-btn" onclick="openSettings()">⚙️</button>
+
+        <div id="tasksList" class="tasks-list"></div>
+
+        <div class="empty-state" id="emptyState">
+            <div class="empty-state-icon">📋</div>
+            <div class="empty-state-text">No tasks yet. Tap + to add your first reminder!</div>
+        </div>
+    </div>
+
+    <button class="add-task-btn" onclick="openAddTask()">+</button>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            
+            <div class="setup-notice" id="setupNotice">
+                <strong>⚠️ Setup Required</strong>
+                Enter your CallMeBot details to receive WhatsApp reminders.
+            </div>
+
+            <div class="form-group">
+                <label>WhatsApp Phone Number</label>
+                <input type="tel" id="whatsappPhone" placeholder="+51987654321">
+            </div>
+
+            <div class="form-group">
+                <label>CallMeBot API Key</label>
+                <input type="text" id="apiKey" placeholder="Your API key">
+            </div>
+
+            <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+            <button class="btn btn-secondary" onclick="closeSettings()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div id="addTaskModal" class="modal">
+        <div class="modal-content">
+            <h2>New Task</h2>
+
+            <div class="form-group">
+                <label>Task Title</label>
+                <input type="text" id="taskTitle" placeholder="What do you need to do?">
+            </div>
+
+            <div class="form-group">
+                <label>Description (Optional)</label>
+                <textarea id="taskDescription" placeholder="Add details..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>When is the task?</label>
+                <input type="datetime-local" id="taskDateTime">
+            </div>
+
+            <div class="form-group">
+                <label>Remind me before</label>
+                <div class="time-input-group">
+                    <input type="number" id="reminderValue" placeholder="0" min="0" value="30">
+                    <select id="reminderUnit" style="padding: 14px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem; font-family: 'DM Sans', sans-serif;">
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Hours</option>
+                        <option value="days">Days</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="addToCalendar">
+                    <label for="addToCalendar">Add to Google Calendar</label>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="addTask()">Create Task</button>
+            <button class="btn btn-secondary" onclick="closeAddTask()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Storage Keys
+        const STORAGE_KEYS = {
+            TASKS: 'taskReminders_tasks',
+            SETTINGS: 'taskReminders_settings'
+        };
+
+        // Load settings on startup
+        let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS)) || {
+            whatsappPhone: '',
+            apiKey: ''
+        };
+
+        // Check if settings are configured
+        function checkSettings() {
+            const configured = settings.whatsappPhone && settings.apiKey;
+            const notice = document.getElementById('setupNotice');
+            if (notice) {
+                notice.style.display = configured ? 'none' : 'block';
+            }
+            return configured;
+        }
+
+        // Load tasks
+        let tasks = JSON.parse(localStorage.getItem(STORAGE_KEYS.TASKS)) || [];
+
+        function saveTasks() {
+            localStorage.setItem(STORAGE_KEYS.TASKS, JSON.stringify(tasks));
+            renderTasks();
+            checkReminders();
+        }
+
+        function renderTasks() {
+            const tasksList = document.getElementById('tasksList');
+            const emptyState = document.getElementById('emptyState');
+
+            if (tasks.length === 0) {
+                tasksList.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            
+            // Sort tasks by datetime
+            tasks.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+
+            tasksList.innerHTML = tasks.map((task, index) => {
+                const taskDate = new Date(task.datetime);
+                const reminderDate = new Date(task.reminderTime);
+                const now = new Date();
+                
+                const isPast = taskDate < now;
+                
+                return `
+                    <div class="task-card" style="${isPast ? 'opacity: 0.6;' : ''}">
+                        <div class="task-header">
+                            <div class="task-title">${escapeHtml(task.title)}</div>
+                            <button class="task-delete" onclick="deleteTask(${index})">×</button>
+                        </div>
+                        ${task.description ? `<div class="task-description">${escapeHtml(task.description)}</div>` : ''}
+                        <div class="task-meta">
+                            <div class="task-tag time">
+                                ⏰ ${formatDateTime(taskDate)}
+                            </div>
+                            ${task.addToCalendar ? '<div class="task-tag calendar">📅 Calendar</div>' : ''}
+                            <div class="task-tag time">
+                                🔔 ${formatReminderTime(task.reminderValue, task.reminderUnit)} before
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDateTime(date) {
+            const options = { 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit'
+            };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        function formatReminderTime(value, unit) {
+            return `${value} ${unit}`;
+        }
+
+        // Settings Modal
+        function openSettings() {
+            document.getElementById('whatsappPhone').value = settings.whatsappPhone || '';
+            document.getElementById('apiKey').value = settings.apiKey || '';
+            document.getElementById('settingsModal').style.display = 'block';
+            checkSettings();
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function saveSettings() {
+            settings = {
+                whatsappPhone: document.getElementById('whatsappPhone').value,
+                apiKey: document.getElementById('apiKey').value
+            };
+            localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+            showNotification('Settings saved!', 'success');
+            closeSettings();
+            checkSettings();
+        }
+
+        // Add Task Modal
+        function openAddTask() {
+            // Set default datetime to 1 hour from now
+            const now = new Date();
+            now.setHours(now.getHours() + 1);
+            now.setMinutes(0);
+            document.getElementById('taskDateTime').value = now.toISOString().slice(0, 16);
+            
+            document.getElementById('taskTitle').value = '';
+            document.getElementById('taskDescription').value = '';
+            document.getElementById('reminderValue').value = '30';
+            document.getElementById('reminderUnit').value = 'minutes';
+            document.getElementById('addToCalendar').checked = false;
+            
+            document.getElementById('addTaskModal').style.display = 'block';
+        }
+
+        function closeAddTask() {
+            document.getElementById('addTaskModal').style.display = 'none';
+        }
+
+        function addTask() {
+            const title = document.getElementById('taskTitle').value.trim();
+            const description = document.getElementById('taskDescription').value.trim();
+            const datetime = document.getElementById('taskDateTime').value;
+            const reminderValue = parseInt(document.getElementById('reminderValue').value);
+            const reminderUnit = document.getElementById('reminderUnit').value;
+            const addToCalendar = document.getElementById('addToCalendar').checked;
+
+            if (!title) {
+                showNotification('Please enter a task title', 'error');
+                return;
+            }
+
+            if (!datetime) {
+                showNotification('Please select a date and time', 'error');
+                return;
+            }
+
+            // Calculate reminder time
+            const taskDate = new Date(datetime);
+            const reminderTime = new Date(taskDate);
+            
+            if (reminderUnit === 'minutes') {
+                reminderTime.setMinutes(reminderTime.getMinutes() - reminderValue);
+            } else if (reminderUnit === 'hours') {
+                reminderTime.setHours(reminderTime.getHours() - reminderValue);
+            } else if (reminderUnit === 'days') {
+                reminderTime.setDate(reminderTime.getDate() - reminderValue);
+            }
+
+            const task = {
+                id: Date.now(),
+                title,
+                description,
+                datetime,
+                reminderValue,
+                reminderUnit,
+                reminderTime: reminderTime.toISOString(),
+                addToCalendar,
+                notified: false,
+                created: new Date().toISOString()
+            };
+
+            tasks.push(task);
+            saveTasks();
+            closeAddTask();
+            showNotification('Task added!', 'success');
+
+            // Add to Google Calendar if requested
+            if (addToCalendar) {
+                addToGoogleCalendar(task);
+            }
+        }
+
+        function deleteTask(index) {
+            if (confirm('Delete this task?')) {
+                tasks.splice(index, 1);
+                saveTasks();
+                showNotification('Task deleted', 'success');
+            }
+        }
+
+        // Notifications
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Check reminders
+        function checkReminders() {
+            if (!checkSettings()) return;
+
+            const now = new Date();
+            
+            tasks.forEach(task => {
+                if (task.notified) return;
+                
+                const reminderTime = new Date(task.reminderTime);
+                
+                if (now >= reminderTime) {
+                    sendWhatsAppReminder(task);
+                    task.notified = true;
+                    saveTasks();
+                }
+            });
+        }
+
+        // Send WhatsApp reminder
+        function sendWhatsAppReminder(task) {
+            const message = `🔔 REMINDER: ${task.title}\n\n` +
+                          `${task.description ? task.description + '\n\n' : ''}` +
+                          `📅 Scheduled: ${formatDateTime(new Date(task.datetime))}`;
+            
+            const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(settings.whatsappPhone)}&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(settings.apiKey)}`;
+            
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        console.log('WhatsApp reminder sent for:', task.title);
+                    } else {
+                        console.error('Failed to send WhatsApp reminder');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending WhatsApp reminder:', error);
+                });
+        }
+
+        // Add to Google Calendar
+        function addToGoogleCalendar(task) {
+            const startDate = new Date(task.datetime);
+            const endDate = new Date(startDate);
+            endDate.setHours(endDate.getHours() + 1);
+
+            const formatDate = (date) => {
+                return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+            };
+
+            const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+                `&text=${encodeURIComponent(task.title)}` +
+                `&details=${encodeURIComponent(task.description || '')}` +
+                `&dates=${formatDate(startDate)}/${formatDate(endDate)}`;
+
+            window.open(calendarUrl, '_blank');
+        }
+
+        // Initialize
+        checkSettings();
+        renderTasks();
+        
+        // Check reminders every minute
+        setInterval(checkReminders, 60000);
+        checkReminders(); // Check immediately on load
+
+        // Load settings values if they exist
+        if (settings.whatsappPhone) {
+            document.getElementById('whatsappPhone').value = settings.whatsappPhone;
+        }
+        if (settings.apiKey) {
+            document.getElementById('apiKey').value = settings.apiKey;
+        }
+    </script>
+</body>
+</html>
