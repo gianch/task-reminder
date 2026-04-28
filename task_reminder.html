@@ -403,6 +403,36 @@
             .btn { padding: 12px; }
         }
 
+        /* ── Section dividers ──────────────────────────────── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 28px 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-header:first-child { margin-top: 0; }
+        .section-label {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.1rem;
+            letter-spacing: 2.5px;
+            flex: 1;
+        }
+        .section-count {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 3px 9px;
+        }
+        @media (max-width: 768px) {
+            .section-label { font-size: 1.3rem; }
+            .section-count { font-size: 0.85rem; padding: 4px 11px; }
+        }
+
         /* ── Very small phones ─────────────────────────────── */
         @media (max-width: 360px) {
             .modal-content { width: 95%; padding: 20px; }
@@ -689,6 +719,27 @@
                 ).join('');
         }
 
+        // ── Group active tasks into time-period buckets ───────────────────
+        function groupTasks(taskList) {
+            const now = new Date();
+
+            // End of current calendar week: Sunday at 23:59:59
+            const endOfWeek = new Date(now);
+            const dow = now.getDay(); // 0 = Sun … 6 = Sat
+            endOfWeek.setDate(now.getDate() + (dow === 0 ? 0 : 7 - dow));
+            endOfWeek.setHours(23, 59, 59, 999);
+
+            // End of current calendar month
+            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+            return {
+                overdue:    taskList.filter(t => new Date(t.datetime) < now),
+                thisWeek:   taskList.filter(t => { const d = new Date(t.datetime); return d >= now && d <= endOfWeek; }),
+                thisMonth:  taskList.filter(t => { const d = new Date(t.datetime); return d > endOfWeek && d <= endOfMonth; }),
+                nextMonths: taskList.filter(t => new Date(t.datetime) > endOfMonth),
+            };
+        }
+
         function renderTasks() {
             const list   = document.getElementById('tasksList');
             const empty  = document.getElementById('emptyState');
@@ -710,7 +761,53 @@
                 return;
             }
             empty.style.display = 'none';
-            list.innerHTML = sorted.map(buildCard).join('');
+
+            // Archive view: flat list, no time grouping
+            if (currentView === 'archive') {
+                list.innerHTML = sorted.map(buildCard).join('');
+                return;
+            }
+
+            // Active view: grouped by time period
+            const groups = groupTasks(sorted);
+            const SECTIONS = [
+                {
+                    key: 'overdue',
+                    label: 'Overdue',
+                    color: 'var(--danger)',
+                    borderColor: 'rgba(255,71,87,0.35)',
+                    tasks: groups.overdue,
+                },
+                {
+                    key: 'thisWeek',
+                    label: 'This Week',
+                    color: 'var(--accent)',
+                    borderColor: 'rgba(0,217,255,0.35)',
+                    tasks: groups.thisWeek,
+                },
+                {
+                    key: 'thisMonth',
+                    label: 'This Month',
+                    color: 'var(--success)',
+                    borderColor: 'rgba(0,255,136,0.35)',
+                    tasks: groups.thisMonth,
+                },
+                {
+                    key: 'nextMonths',
+                    label: 'Next Months',
+                    color: 'var(--warning)',
+                    borderColor: 'rgba(255,184,0,0.35)',
+                    tasks: groups.nextMonths,
+                },
+            ].filter(s => s.tasks.length > 0);
+
+            list.innerHTML = SECTIONS.map(s => `
+                <div class="section-header" style="border-color:${s.borderColor}">
+                    <span class="section-label" style="color:${s.color}">${s.label}</span>
+                    <span class="section-count">${s.tasks.length} task${s.tasks.length !== 1 ? 's' : ''}</span>
+                </div>
+                ${s.tasks.map(buildCard).join('')}
+            `).join('');
         }
 
         function buildCard(task) {
