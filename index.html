@@ -433,6 +433,7 @@
                 <input type="text" id="apiKey" placeholder="Your API key">
             </div>
             <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+            <button class="btn btn-secondary" onclick="testWhatsApp()">Send Test Message</button>
             <button class="btn btn-secondary" onclick="closeSettings()">Cancel</button>
         </div>
     </div>
@@ -870,7 +871,28 @@
             const msg = `🔔 REMINDER: ${task.title}\n\n` +
                         (task.description ? task.description + '\n\n' : '') +
                         `📅 Scheduled: ${formatDateTime(new Date(task.datetime))}`;
-            fetch(`https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(cfg.whatsappPhone)}&text=${encodeURIComponent(msg)}&apikey=${encodeURIComponent(cfg.apiKey)}`).catch(console.error);
+            callMeBot(cfg.whatsappPhone, cfg.apiKey, msg);
+        }
+
+        // Use an Image request instead of fetch — bypasses CORS restrictions
+        // that silently block fetch() calls to CallMeBot from the browser.
+        function callMeBot(phone, apiKey, message) {
+            const url = `https://api.callmebot.com/whatsapp.php` +
+                        `?phone=${encodeURIComponent(phone)}` +
+                        `&text=${encodeURIComponent(message)}` +
+                        `&apikey=${encodeURIComponent(apiKey)}`;
+            new Image().src = url;
+        }
+
+        function testWhatsApp() {
+            const phone  = document.getElementById('whatsappPhone').value.trim();
+            const apiKey = document.getElementById('apiKey').value.trim();
+            if (!phone || !apiKey) {
+                showNotification('Enter your phone and API key first', 'error');
+                return;
+            }
+            callMeBot(phone, apiKey, '✅ Test from Reminders — if you got this, WhatsApp is working!');
+            showNotification('Test sent! Check WhatsApp in a moment ✓', 'success');
         }
 
         // ── Google Calendar ───────────────────────────────────────────────
