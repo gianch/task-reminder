@@ -9,16 +9,16 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         :root {
-            --bg-primary:   #0a0e27;
-            --bg-secondary: #151b3d;
-            --accent:       #00d9ff;
-            --accent-glow:  rgba(0, 217, 255, 0.3);
-            --text-primary: #ffffff;
+            --bg-primary:     #0a0e27;
+            --bg-secondary:   #151b3d;
+            --accent:         #00d9ff;
+            --accent-glow:    rgba(0, 217, 255, 0.3);
+            --text-primary:   #ffffff;
             --text-secondary: #a0a8c9;
-            --border:       #2a3156;
-            --success:      #00ff88;
-            --warning:      #ffb800;
-            --danger:       #ff4757;
+            --border:         #2a3156;
+            --success:        #00ff88;
+            --warning:        #ffb800;
+            --danger:         #ff4757;
         }
 
         body {
@@ -50,7 +50,7 @@
 
         .container { max-width: 500px; margin: 0 auto; position: relative; z-index: 1; }
 
-        /* ── Header ────────────────────────────────────────── */
+        /* ── Header ─────────────────────────────────────────── */
         header { text-align: center; margin-bottom: 32px; animation: slideDown 0.6s ease-out; }
         @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -69,7 +69,7 @@
         .subtitle { color: var(--text-secondary); font-size: 0.9rem; letter-spacing: 1px; }
         @media (max-width: 768px) { .subtitle { font-size: 1.1rem; } }
 
-        /* ── Settings button ───────────────────────────────── */
+        /* ── Settings button ────────────────────────────────── */
         .settings-btn {
             position: fixed;
             top: max(20px, env(safe-area-inset-top, 20px));
@@ -94,7 +94,7 @@
         }
         .settings-btn:active { transform: scale(0.95); background: var(--accent); color: var(--bg-primary); }
 
-        /* ── Modal ─────────────────────────────────────────── */
+        /* ── Modal ──────────────────────────────────────────── */
         .modal {
             display: none; position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -127,15 +127,7 @@
         }
         @media (max-width: 768px) { .modal h2 { font-size: 2.5rem; } }
 
-        .modal-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: -14px;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        /* ── Forms ─────────────────────────────────────────── */
+        /* ── Forms ──────────────────────────────────────────── */
         .form-group { margin-bottom: 20px; }
         @media (max-width: 768px) { .form-group { margin-bottom: 24px; } }
 
@@ -168,7 +160,7 @@
         select { font-family: 'DM Sans', sans-serif; }
         @media (max-width: 768px) { select { padding: 18px !important; font-size: 1.1rem !important; border-radius: 14px !important; } }
 
-        /* ── Buttons ───────────────────────────────────────── */
+        /* ── Buttons ────────────────────────────────────────── */
         .btn {
             width: 100%; padding: 16px; border: none; border-radius: 12px;
             font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem;
@@ -186,7 +178,7 @@
         }
         .btn-secondary:active { background: var(--border); }
 
-        /* ── Checkbox ──────────────────────────────────────── */
+        /* ── Checkbox ───────────────────────────────────────── */
         .checkbox-group {
             display: flex; align-items: center; gap: 12px; padding: 14px;
             background: var(--bg-primary); border: 1px solid var(--border);
@@ -199,34 +191,7 @@
         .checkbox-group label { margin: 0; cursor: pointer; font-size: 0.95rem; text-transform: none; color: var(--text-primary); }
         @media (max-width: 768px) { .checkbox-group label { font-size: 1.1rem; } }
 
-        /* ── View tabs ─────────────────────────────────────── */
-        .view-tabs {
-            display: flex; gap: 4px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 14px; padding: 4px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            flex: 1; padding: 11px; border: none; border-radius: 10px;
-            background: transparent; color: var(--text-secondary);
-            font-family: 'DM Sans', sans-serif; font-weight: 600;
-            font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease;
-        }
-        .tab-btn.active {
-            background: var(--accent); color: var(--bg-primary);
-            box-shadow: 0 2px 12px var(--accent-glow);
-        }
-        .tab-count {
-            display: inline-flex; align-items: center; justify-content: center;
-            min-width: 20px; height: 20px; border-radius: 10px;
-            font-size: 0.7rem; margin-left: 6px; padding: 0 5px;
-            background: rgba(255,255,255,0.15);
-        }
-        .tab-btn.active .tab-count { background: rgba(0,0,0,0.2); }
-        @media (max-width: 768px) { .tab-btn { font-size: 1rem; padding: 14px; } }
-
-        /* ── Tag filter bar ────────────────────────────────── */
+        /* ── Tag filter bar ─────────────────────────────────── */
         .filter-bar {
             display: flex; flex-wrap: wrap; gap: 8px;
             margin-bottom: 16px; align-items: center;
@@ -243,167 +208,7 @@
         .filter-pill:active { transform: scale(0.95); }
         @media (max-width: 768px) { .filter-pill { padding: 8px 18px; font-size: 0.95rem; } }
 
-        /* ── Task list ─────────────────────────────────────── */
-        .tasks-list { display: flex; flex-direction: column; gap: 16px; margin-top: 4px; }
-
-        .task-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 16px; padding: 20px;
-            position: relative; overflow: hidden;
-            animation: taskSlideIn 0.4s ease;
-        }
-        @media (max-width: 768px) { .task-card { padding: 24px; border-radius: 18px; } }
-        @keyframes taskSlideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        .task-card::before {
-            content: ''; position: absolute; left: 0; top: 0;
-            width: 4px; height: 100%;
-            background: linear-gradient(180deg, var(--accent) 0%, #00ffaa 100%);
-        }
-        .task-card.archived-card { border-color: rgba(255,184,0,0.25); }
-        .task-card.archived-card::before { background: linear-gradient(180deg, var(--warning) 0%, #ff8800 100%); }
-
-        .task-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-
-        .task-title { font-weight: 700; font-size: 1.1rem; color: var(--text-primary); flex: 1; word-break: break-word; }
-        @media (max-width: 768px) { .task-title { font-size: 1.3rem; } }
-
-        /* ── Task action icon buttons ──────────────────────── */
-        .task-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; margin-left: 8px; }
-        .btn-icon {
-            background: none; border: none; cursor: pointer;
-            padding: 5px 7px; border-radius: 8px;
-            font-size: 1.05rem; transition: background 0.2s ease;
-            line-height: 1; display: flex; align-items: center; justify-content: center;
-        }
-        .btn-icon:active { transform: scale(0.88); }
-        .btn-icon.edit    { color: var(--accent);  }
-        .btn-icon.archive { color: var(--warning); }
-        .btn-icon.restore { color: var(--success); }
-        .btn-icon.delete  { color: var(--danger);  }
-        @media (max-width: 768px) { .btn-icon { font-size: 1.4rem; padding: 6px 8px; } }
-
-        /* ── Tag pills on cards ────────────────────────────── */
-        .task-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-        .task-tag-pill { padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
-        @media (max-width: 768px) { .task-tag-pill { font-size: 0.9rem; padding: 5px 12px; } }
-
-        .task-description { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; line-height: 1.5; }
-        @media (max-width: 768px) { .task-description { font-size: 1.05rem; line-height: 1.6; } }
-
-        .task-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.85rem; }
-        @media (max-width: 768px) { .task-meta { font-size: 0.95rem; gap: 12px; } }
-
-        .task-tag { padding: 6px 12px; border-radius: 8px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
-        @media (max-width: 768px) { .task-tag { padding: 8px 14px; border-radius: 10px; } }
-        .task-tag.time     { background: rgba(255,184,0,0.15); color: var(--warning); border: 1px solid rgba(255,184,0,0.3); }
-        .task-tag.calendar { background: rgba(0,255,136,0.15); color: var(--success); border: 1px solid rgba(0,255,136,0.3); }
-
-        .archived-info {
-            margin-top: 12px; padding-top: 12px;
-            border-top: 1px solid var(--border);
-            font-size: 0.8rem; color: var(--text-secondary);
-        }
-        @media (max-width: 768px) { .archived-info { font-size: 0.9rem; } }
-
-        /* ── Empty state ───────────────────────────────────── */
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
-        @media (max-width: 768px) { .empty-state { padding: 80px 20px; } }
-        .empty-state-icon { font-size: 4rem; margin-bottom: 16px; opacity: 0.3; }
-        @media (max-width: 768px) { .empty-state-icon { font-size: 5rem; } }
-        .empty-state-text { font-size: 1.1rem; }
-        @media (max-width: 768px) { .empty-state-text { font-size: 1.3rem; } }
-
-        /* ── FAB ───────────────────────────────────────────── */
-        .add-task-btn {
-            position: fixed;
-            bottom: max(30px, env(safe-area-inset-bottom, 30px));
-            right:  max(30px, env(safe-area-inset-right,  30px));
-            width: 64px; height: 64px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent) 0%, #00ffaa 100%);
-            border: none; color: var(--bg-primary);
-            font-size: 2rem; font-weight: 700;
-            cursor: pointer; box-shadow: 0 8px 30px var(--accent-glow);
-            transition: all 0.3s ease; z-index: 100;
-            display: flex; align-items: center; justify-content: center;
-        }
-        @media (max-width: 768px) {
-            .add-task-btn {
-                width: 72px; height: 72px; font-size: 2.5rem;
-                bottom: max(24px, env(safe-area-inset-bottom, 24px));
-                right:  max(24px, env(safe-area-inset-right,  24px));
-            }
-        }
-        .add-task-btn:active { transform: scale(0.9) rotate(90deg); }
-
-        /* ── Toast ─────────────────────────────────────────── */
-        .notification {
-            position: fixed;
-            top: max(20px, env(safe-area-inset-top, 20px));
-            left: 50%; transform: translateX(-50%) translateY(-100px);
-            background: var(--bg-secondary); border: 1px solid var(--border);
-            border-radius: 12px; padding: 16px 24px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-            z-index: 3000; transition: transform 0.4s ease;
-            display: flex; align-items: center; gap: 12px;
-            width: max-content; max-width: calc(100vw - 32px);
-        }
-        .notification.show { transform: translateX(-50%) translateY(0); }
-        .notification.success { border-color: var(--success); }
-        .notification.error   { border-color: var(--danger);  }
-
-        /* ── Setup notice ──────────────────────────────────── */
-        .setup-notice {
-            background: rgba(255,184,0,0.1); border: 1px solid rgba(255,184,0,0.3);
-            border-radius: 12px; padding: 16px; margin-bottom: 20px;
-            color: var(--warning); font-size: 0.9rem; line-height: 1.6;
-        }
-        @media (max-width: 768px) { .setup-notice { padding: 18px; font-size: 1rem; line-height: 1.7; border-radius: 14px; } }
-        .setup-notice strong { display: block; margin-bottom: 8px; font-size: 1rem; }
-        @media (max-width: 768px) { .setup-notice strong { font-size: 1.15rem; } }
-
-        /* ── Tag chip input (in form) ──────────────────────── */
-        .tag-input-wrapper {
-            background: var(--bg-primary); border: 1px solid var(--border);
-            border-radius: 12px; padding: 8px;
-            display: flex; flex-wrap: wrap; gap: 6px;
-            align-items: center; min-height: 50px;
-            cursor: text; transition: all 0.3s ease;
-        }
-        .tag-input-wrapper:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-        .tag-input-wrapper input {
-            border: none !important; background: transparent !important;
-            color: var(--text-primary); font-size: 1rem;
-            font-family: 'DM Sans', sans-serif;
-            flex: 1; min-width: 100px;
-            padding: 4px 4px !important;
-            box-shadow: none !important; outline: none !important;
-        }
-        .form-tag-chip {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 4px 10px; border-radius: 20px;
-            font-size: 0.8rem; font-weight: 600; white-space: nowrap;
-        }
-        .form-tag-chip-remove {
-            background: none; border: none; cursor: pointer;
-            padding: 0; line-height: 1; opacity: 0.65;
-            font-size: 0.85rem; color: inherit;
-        }
-        .form-tag-chip-remove:hover { opacity: 1; }
-        .tag-hint { font-size: 0.78rem; color: var(--text-secondary); margin-top: 6px; }
-
-        /* ── Landscape phones ──────────────────────────────── */
-        @media (max-height: 500px) and (orientation: landscape) {
-            body { padding: 8px 16px; }
-            header { margin-bottom: 16px; }
-            h1 { font-size: 2.5rem; }
-            .modal-content { max-height: 85vh; padding: 20px 24px; }
-            .form-group { margin-bottom: 12px; }
-            .btn { padding: 12px; }
-        }
-
-        /* ── Section dividers ──────────────────────────────── */
+        /* ── Section dividers ───────────────────────────────── */
         .section-header {
             display: flex;
             align-items: center;
@@ -433,7 +238,157 @@
             .section-count { font-size: 0.85rem; padding: 4px 11px; }
         }
 
-        /* ── Very small phones ─────────────────────────────── */
+        /* ── Task list ──────────────────────────────────────── */
+        .tasks-list { display: flex; flex-direction: column; gap: 16px; margin-top: 4px; }
+
+        .task-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px; padding: 20px;
+            position: relative; overflow: hidden;
+            animation: taskSlideIn 0.4s ease;
+        }
+        @media (max-width: 768px) { .task-card { padding: 24px; border-radius: 18px; } }
+        @keyframes taskSlideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .task-card::before {
+            content: ''; position: absolute; left: 0; top: 0;
+            width: 4px; height: 100%;
+            background: linear-gradient(180deg, var(--accent) 0%, #00ffaa 100%);
+        }
+        .task-card.overdue::before { background: linear-gradient(180deg, var(--danger) 0%, #ff8800 100%); }
+
+        .task-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+
+        .task-title { font-weight: 700; font-size: 1.1rem; color: var(--text-primary); flex: 1; word-break: break-word; }
+        @media (max-width: 768px) { .task-title { font-size: 1.3rem; } }
+
+        /* ── Task action buttons ────────────────────────────── */
+        .task-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; margin-left: 8px; }
+        .btn-icon {
+            background: none; border: none; cursor: pointer;
+            padding: 5px 7px; border-radius: 8px;
+            font-size: 1.05rem; transition: background 0.2s ease;
+            line-height: 1; display: flex; align-items: center; justify-content: center;
+        }
+        .btn-icon:active { transform: scale(0.88); }
+        .btn-icon.edit   { color: var(--accent); }
+        .btn-icon.delete { color: var(--danger);  }
+        @media (max-width: 768px) { .btn-icon { font-size: 1.4rem; padding: 6px 8px; } }
+
+        /* ── Tag pills on cards ─────────────────────────────── */
+        .task-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+        .task-tag-pill { padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+        @media (max-width: 768px) { .task-tag-pill { font-size: 0.9rem; padding: 5px 12px; } }
+
+        .task-description { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; line-height: 1.5; }
+        @media (max-width: 768px) { .task-description { font-size: 1.05rem; line-height: 1.6; } }
+
+        .task-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.85rem; }
+        @media (max-width: 768px) { .task-meta { font-size: 0.95rem; gap: 12px; } }
+
+        .task-tag { padding: 6px 12px; border-radius: 8px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+        @media (max-width: 768px) { .task-tag { padding: 8px 14px; border-radius: 10px; } }
+        .task-tag.time     { background: rgba(255,184,0,0.15); color: var(--warning); border: 1px solid rgba(255,184,0,0.3); }
+        .task-tag.calendar { background: rgba(0,255,136,0.15); color: var(--success); border: 1px solid rgba(0,255,136,0.3); }
+
+        /* ── Empty state ────────────────────────────────────── */
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+        @media (max-width: 768px) { .empty-state { padding: 80px 20px; } }
+        .empty-state-icon { font-size: 4rem; margin-bottom: 16px; opacity: 0.3; }
+        @media (max-width: 768px) { .empty-state-icon { font-size: 5rem; } }
+        .empty-state-text { font-size: 1.1rem; }
+        @media (max-width: 768px) { .empty-state-text { font-size: 1.3rem; } }
+
+        /* ── FAB ────────────────────────────────────────────── */
+        .add-task-btn {
+            position: fixed;
+            bottom: max(30px, env(safe-area-inset-bottom, 30px));
+            right:  max(30px, env(safe-area-inset-right,  30px));
+            width: 64px; height: 64px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, #00ffaa 100%);
+            border: none; color: var(--bg-primary);
+            font-size: 2rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 8px 30px var(--accent-glow);
+            transition: all 0.3s ease; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .add-task-btn {
+                width: 72px; height: 72px; font-size: 2.5rem;
+                bottom: max(24px, env(safe-area-inset-bottom, 24px));
+                right:  max(24px, env(safe-area-inset-right,  24px));
+            }
+        }
+        .add-task-btn:active { transform: scale(0.9) rotate(90deg); }
+
+        /* ── Toast ──────────────────────────────────────────── */
+        .notification {
+            position: fixed;
+            top: max(20px, env(safe-area-inset-top, 20px));
+            left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px 24px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            z-index: 3000; transition: transform 0.4s ease;
+            display: flex; align-items: center; gap: 12px;
+            width: max-content; max-width: calc(100vw - 32px);
+        }
+        .notification.show { transform: translateX(-50%) translateY(0); }
+        .notification.success { border-color: var(--success); }
+        .notification.error   { border-color: var(--danger);  }
+
+        /* ── Setup notice ───────────────────────────────────── */
+        .setup-notice {
+            background: rgba(255,184,0,0.1); border: 1px solid rgba(255,184,0,0.3);
+            border-radius: 12px; padding: 16px; margin-bottom: 20px;
+            color: var(--warning); font-size: 0.9rem; line-height: 1.6;
+        }
+        @media (max-width: 768px) { .setup-notice { padding: 18px; font-size: 1rem; line-height: 1.7; border-radius: 14px; } }
+        .setup-notice strong { display: block; margin-bottom: 8px; font-size: 1rem; }
+        @media (max-width: 768px) { .setup-notice strong { font-size: 1.15rem; } }
+
+        /* ── Tag chip input (in form) ───────────────────────── */
+        .tag-input-wrapper {
+            background: var(--bg-primary); border: 1px solid var(--border);
+            border-radius: 12px; padding: 8px;
+            display: flex; flex-wrap: wrap; gap: 6px;
+            align-items: center; min-height: 50px;
+            cursor: text; transition: all 0.3s ease;
+        }
+        .tag-input-wrapper:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .tag-input-wrapper input {
+            border: none !important; background: transparent !important;
+            color: var(--text-primary); font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            flex: 1; min-width: 100px;
+            padding: 4px 4px !important;
+            box-shadow: none !important; outline: none !important;
+        }
+        .form-tag-chip {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 10px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 600; white-space: nowrap;
+        }
+        .form-tag-chip-remove {
+            background: none; border: none; cursor: pointer;
+            padding: 0; line-height: 1; opacity: 0.65;
+            font-size: 0.85rem; color: inherit;
+        }
+        .form-tag-chip-remove:hover { opacity: 1; }
+        .tag-hint { font-size: 0.78rem; color: var(--text-secondary); margin-top: 6px; }
+
+        /* ── Landscape phones ───────────────────────────────── */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body { padding: 8px 16px; }
+            header { margin-bottom: 16px; }
+            h1 { font-size: 2.5rem; }
+            .modal-content { max-height: 85vh; padding: 20px 24px; }
+            .form-group { margin-bottom: 12px; }
+            .btn { padding: 12px; }
+        }
+
+        /* ── Very small phones ──────────────────────────────── */
         @media (max-width: 360px) {
             .modal-content { width: 95%; padding: 20px; }
             h1 { font-size: 3rem; }
@@ -447,28 +402,18 @@
             <div class="subtitle">Personal Task Manager</div>
         </header>
 
-        <!-- View tabs -->
-        <div class="view-tabs">
-            <button class="tab-btn active" id="tabActive" onclick="switchView('active')">
-                Active <span class="tab-count" id="countActive">0</span>
-            </button>
-            <button class="tab-btn" id="tabArchive" onclick="switchView('archive')">
-                Archive <span class="tab-count" id="countArchive">0</span>
-            </button>
-        </div>
-
         <!-- Tag filter bar -->
         <div id="filterBar" class="filter-bar" style="display:none"></div>
 
         <div id="tasksList" class="tasks-list"></div>
 
         <div class="empty-state" id="emptyState" style="display:none">
-            <div class="empty-state-icon" id="emptyIcon">📋</div>
-            <div class="empty-state-text" id="emptyText">No tasks yet. Tap + to add your first reminder!</div>
+            <div class="empty-state-icon">📋</div>
+            <div class="empty-state-text">No tasks yet. Tap + to add your first reminder!</div>
         </div>
     </div>
 
-    <button class="add-task-btn" id="addTaskFab" onclick="openAddTask()">+</button>
+    <button class="add-task-btn" onclick="openAddTask()">+</button>
     <button class="settings-btn" onclick="openSettings()">⚙️</button>
 
     <!-- Settings Modal -->
@@ -538,34 +483,9 @@
         </div>
     </div>
 
-    <!-- Restore Modal -->
-    <div id="restoreModal" class="modal">
-        <div class="modal-content">
-            <h2>Restore Task</h2>
-            <p class="modal-subtitle">Pick a new date and time to bring this task back to active.</p>
-            <div class="form-group">
-                <label>When is the task?</label>
-                <input type="datetime-local" id="restoreDateTime">
-            </div>
-            <div class="form-group">
-                <label>Remind me before</label>
-                <div class="time-input-group">
-                    <input type="number" id="restoreReminderValue" min="0" value="30">
-                    <select id="restoreReminderUnit" style="padding:14px;background:var(--bg-primary);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);font-size:1rem;font-family:'DM Sans',sans-serif;">
-                        <option value="minutes">Minutes</option>
-                        <option value="hours">Hours</option>
-                        <option value="days">Days</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn btn-primary" onclick="confirmRestore()">Restore Task</button>
-            <button class="btn btn-secondary" onclick="closeRestore()">Cancel</button>
-        </div>
-    </div>
-
     <div id="notification" class="notification"></div>
 
-    <!-- Firebase SDK (compat — no bundler needed) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -583,16 +503,13 @@
         };
 
         // ── State ─────────────────────────────────────────────────────────
-        const CONFIGURED    = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
-        let db              = null;
-        let settings        = { whatsappPhone: '', apiKey: '' };
-        let tasks           = [];   // archived === false
-        let archivedTasks   = [];   // archived === true
-        let currentView     = 'active';
-        let selectedTags    = [];
-        let editingTaskId   = null;
-        let restoringTaskId = null;
-        let currentTags     = [];   // tags being built in the open form
+        const CONFIGURED  = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
+        let db            = null;
+        let settings      = { whatsappPhone: '', apiKey: '' };
+        let tasks         = [];
+        let selectedTags  = [];
+        let editingTaskId = null;
+        let currentTags   = [];
 
         // ── Tag colour palette ─────────────────────────────────────────────
         const PALETTES = [
@@ -619,10 +536,8 @@
             db = firebase.firestore();
             bootFirebase();
         } else {
-            settings          = JSON.parse(localStorage.getItem('taskReminders_settings')) || {};
-            const raw         = JSON.parse(localStorage.getItem('taskReminders_tasks'))    || [];
-            tasks             = raw.filter(t => !t.archived);
-            archivedTasks     = raw.filter(t =>  t.archived === true);
+            settings = JSON.parse(localStorage.getItem('taskReminders_settings')) || {};
+            tasks    = JSON.parse(localStorage.getItem('taskReminders_tasks'))    || [];
             checkSettings();
             render();
             setInterval(checkRemindersLocally, 60000);
@@ -631,11 +546,8 @@
         }
 
         function bootFirebase() {
-            // One listener, filter client-side — simple and sufficient for personal use
             db.collection('tasks').onSnapshot(snapshot => {
-                const all     = snapshot.docs.map(doc => ({ ...doc.data(), _id: doc.id }));
-                tasks         = all.filter(t => !t.archived);
-                archivedTasks = all.filter(t =>  t.archived === true);
+                tasks = snapshot.docs.map(doc => ({ ...doc.data(), _id: doc.id }));
                 render();
                 checkRemindersLocally();
             });
@@ -671,21 +583,6 @@
             else if (unit === 'days')  t.setDate(t.getDate() - value);
             return t.toISOString();
         }
-        function daysUntilDelete(archivedAt) {
-            const d = new Date(archivedAt);
-            d.setDate(d.getDate() + 30);
-            return Math.max(0, Math.ceil((d - new Date()) / 86400000));
-        }
-
-        // ── View switching ────────────────────────────────────────────────
-        function switchView(view) {
-            currentView  = view;
-            selectedTags = [];
-            document.getElementById('tabActive').classList.toggle('active',  view === 'active');
-            document.getElementById('tabArchive').classList.toggle('active', view === 'archive');
-            document.getElementById('addTaskFab').style.display = view === 'active' ? 'flex' : 'none';
-            render();
-        }
 
         // ── Tag filter ────────────────────────────────────────────────────
         function toggleTagFilter(tag) {
@@ -697,18 +594,11 @@
         function clearTagFilter() { selectedTags = []; render(); }
 
         // ── Render ────────────────────────────────────────────────────────
-        function render() {
-            document.getElementById('countActive').textContent  = tasks.length;
-            document.getElementById('countArchive').textContent = archivedTasks.length;
-            renderFilterBar();
-            renderTasks();
-        }
+        function render() { renderFilterBar(); renderTasks(); }
 
         function renderFilterBar() {
             const bar     = document.getElementById('filterBar');
-            const source  = currentView === 'active' ? tasks : archivedTasks;
-            const allTags = [...new Set(source.flatMap(t => t.tags || []))].sort();
-
+            const allTags = [...new Set(tasks.flatMap(t => t.tags || []))].sort();
             if (allTags.length === 0) { bar.style.display = 'none'; return; }
             bar.style.display = 'flex';
             bar.innerHTML =
@@ -719,11 +609,11 @@
                 ).join('');
         }
 
-        // ── Group active tasks into time-period buckets ───────────────────
-        function groupTasks(taskList) {
+        // ── Group tasks by time period ────────────────────────────────────
+        function groupTasks(list) {
             const now = new Date();
 
-            // End of current calendar week: Sunday at 23:59:59
+            // End of current calendar week (Sunday 23:59:59)
             const endOfWeek = new Date(now);
             const dow = now.getDay(); // 0 = Sun … 6 = Sat
             endOfWeek.setDate(now.getDate() + (dow === 0 ? 0 : 7 - dow));
@@ -733,126 +623,63 @@
             const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 
             return {
-                overdue:    taskList.filter(t => new Date(t.datetime) < now),
-                thisWeek:   taskList.filter(t => { const d = new Date(t.datetime); return d >= now && d <= endOfWeek; }),
-                thisMonth:  taskList.filter(t => { const d = new Date(t.datetime); return d > endOfWeek && d <= endOfMonth; }),
-                nextMonths: taskList.filter(t => new Date(t.datetime) > endOfMonth),
+                overdue:    list.filter(t => new Date(t.datetime) < now),
+                thisWeek:   list.filter(t => { const d = new Date(t.datetime); return d >= now && d <= endOfWeek; }),
+                thisMonth:  list.filter(t => { const d = new Date(t.datetime); return d > endOfWeek && d <= endOfMonth; }),
+                nextMonths: list.filter(t => new Date(t.datetime) > endOfMonth),
             };
         }
 
         function renderTasks() {
-            const list   = document.getElementById('tasksList');
-            const empty  = document.getElementById('emptyState');
-            const source = currentView === 'active' ? tasks : archivedTasks;
+            const list  = document.getElementById('tasksList');
+            const empty = document.getElementById('emptyState');
 
             const filtered = selectedTags.length === 0
-                ? source
-                : source.filter(t => selectedTags.some(tag => (t.tags || []).includes(tag)));
+                ? tasks
+                : tasks.filter(t => selectedTags.some(tag => (t.tags || []).includes(tag)));
 
             const sorted = [...filtered].sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
 
             if (sorted.length === 0) {
                 list.innerHTML = '';
                 empty.style.display = 'block';
-                document.getElementById('emptyIcon').textContent = currentView === 'archive' ? '📦' : '📋';
-                document.getElementById('emptyText').textContent = currentView === 'archive'
-                    ? 'No archived tasks yet.'
-                    : 'No tasks yet. Tap + to add your first reminder!';
                 return;
             }
             empty.style.display = 'none';
 
-            // Archive view: flat list, no time grouping
-            if (currentView === 'archive') {
-                list.innerHTML = sorted.map(buildCard).join('');
-                return;
-            }
-
-            // Active view: grouped by time period
-            const groups = groupTasks(sorted);
+            const g = groupTasks(sorted);
             const SECTIONS = [
-                {
-                    key: 'overdue',
-                    label: 'Overdue',
-                    color: 'var(--danger)',
-                    borderColor: 'rgba(255,71,87,0.35)',
-                    tasks: groups.overdue,
-                },
-                {
-                    key: 'thisWeek',
-                    label: 'This Week',
-                    color: 'var(--accent)',
-                    borderColor: 'rgba(0,217,255,0.35)',
-                    tasks: groups.thisWeek,
-                },
-                {
-                    key: 'thisMonth',
-                    label: 'This Month',
-                    color: 'var(--success)',
-                    borderColor: 'rgba(0,255,136,0.35)',
-                    tasks: groups.thisMonth,
-                },
-                {
-                    key: 'nextMonths',
-                    label: 'Next Months',
-                    color: 'var(--warning)',
-                    borderColor: 'rgba(255,184,0,0.35)',
-                    tasks: groups.nextMonths,
-                },
+                { label: 'Overdue',     color: 'var(--danger)',  border: 'rgba(255,71,87,0.35)',  tasks: g.overdue    },
+                { label: 'This Week',   color: 'var(--accent)',  border: 'rgba(0,217,255,0.35)',  tasks: g.thisWeek   },
+                { label: 'This Month',  color: 'var(--success)', border: 'rgba(0,255,136,0.35)',  tasks: g.thisMonth  },
+                { label: 'Next Months', color: 'var(--warning)', border: 'rgba(255,184,0,0.35)',  tasks: g.nextMonths },
             ].filter(s => s.tasks.length > 0);
 
             list.innerHTML = SECTIONS.map(s => `
-                <div class="section-header" style="border-color:${s.borderColor}">
+                <div class="section-header" style="border-color:${s.border}">
                     <span class="section-label" style="color:${s.color}">${s.label}</span>
                     <span class="section-count">${s.tasks.length} task${s.tasks.length !== 1 ? 's' : ''}</span>
                 </div>
-                ${s.tasks.map(buildCard).join('')}
+                ${s.tasks.map(t => buildCard(t, s.label === 'Overdue')).join('')}
             `).join('');
         }
 
-        function buildCard(task) {
+        function buildCard(task, isOverdue = false) {
             const id       = task._id || task.id;
             const taskDate = new Date(task.datetime);
-            const isPast   = taskDate < new Date() && !task.archived;
             const tagPills = (task.tags || []).length
-                ? `<div class="task-tags">${(task.tags).map(t =>
+                ? `<div class="task-tags">${task.tags.map(t =>
                     `<span class="task-tag-pill" style="${tagStyle(t)}">#${escapeHtml(t)}</span>`
                   ).join('')}</div>`
                 : '';
 
-            if (task.archived) {
-                const daysLeft = daysUntilDelete(task.archivedAt);
-                return `
-                    <div class="task-card archived-card">
-                        <div class="task-header">
-                            <div class="task-title">${escapeHtml(task.title)}</div>
-                            <div class="task-actions">
-                                <button class="btn-icon restore" onclick="openRestoreModal('${id}')" title="Restore">↩</button>
-                                <button class="btn-icon delete"  onclick="deleteTask('${id}')"       title="Delete permanently">×</button>
-                            </div>
-                        </div>
-                        ${task.description ? `<div class="task-description">${escapeHtml(task.description)}</div>` : ''}
-                        ${tagPills}
-                        <div class="task-meta">
-                            <div class="task-tag time">⏰ ${formatDateTime(taskDate)}</div>
-                        </div>
-                        <div class="archived-info">
-                            📦 Archived ${formatDateTime(new Date(task.archivedAt))} ·
-                            ${daysLeft > 0
-                                ? `Auto-deletes in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}`
-                                : 'Deletes very soon'}
-                        </div>
-                    </div>`;
-            }
-
             return `
-                <div class="task-card" style="${isPast ? 'opacity:0.6;' : ''}">
+                <div class="task-card${isOverdue ? ' overdue' : ''}">
                     <div class="task-header">
                         <div class="task-title">${escapeHtml(task.title)}</div>
                         <div class="task-actions">
-                            <button class="btn-icon edit"    onclick="editTask('${id}')"    title="Edit">✏</button>
-                            <button class="btn-icon archive" onclick="archiveTask('${id}')" title="Archive">⬇</button>
-                            <button class="btn-icon delete"  onclick="deleteTask('${id}')"  title="Delete permanently">×</button>
+                            <button class="btn-icon edit"   onclick="editTask('${id}')"   title="Edit">✏</button>
+                            <button class="btn-icon delete" onclick="deleteTask('${id}')" title="Delete">×</button>
                         </div>
                     </div>
                     ${task.description ? `<div class="task-description">${escapeHtml(task.description)}</div>` : ''}
@@ -904,7 +731,7 @@
         }
 
         function editTask(id) {
-            const task = [...tasks, ...archivedTasks].find(t => (t._id || t.id) === id);
+            const task = tasks.find(t => (t._id || t.id) === id);
             if (!task) return;
             editingTaskId = id;
             currentTags   = [...(task.tags || [])];
@@ -936,9 +763,9 @@
             const reminderUnit  = document.getElementById('reminderUnit').value;
             const addToCalendar = document.getElementById('addToCalendar').checked;
 
-            // Flush any un-confirmed tag still in the input
-            const rawTag = document.getElementById('tagInput').value.trim().replace(/,/g, '').trim();
-            if (rawTag && !currentTags.includes(rawTag.toLowerCase())) currentTags.push(rawTag.toLowerCase());
+            // Flush any tag still typed but not yet confirmed
+            const rawTag = document.getElementById('tagInput').value.trim().replace(/,/g, '').trim().toLowerCase();
+            if (rawTag && !currentTags.includes(rawTag)) currentTags.push(rawTag);
 
             if (!title)    { showNotification('Please enter a task title', 'error'); return; }
             if (!datetime) { showNotification('Please select a date and time', 'error'); return; }
@@ -955,20 +782,20 @@
                 if (CONFIGURED) {
                     await db.collection('tasks').doc(editingTaskId).update(payload);
                 } else {
-                    const t = [...tasks, ...archivedTasks].find(t => (t._id || t.id) === editingTaskId);
+                    const t = tasks.find(t => (t._id || t.id) === editingTaskId);
                     if (t) Object.assign(t, payload);
-                    localStorage.setItem('taskReminders_tasks', JSON.stringify([...tasks, ...archivedTasks]));
+                    localStorage.setItem('taskReminders_tasks', JSON.stringify(tasks));
                     render();
                 }
                 showNotification('Task updated! ✓', 'success');
             } else {
-                const newTask = { ...payload, notified: false, archived: false, created: new Date().toISOString() };
+                const newTask = { ...payload, notified: false, created: new Date().toISOString() };
                 if (CONFIGURED) {
                     await db.collection('tasks').add(newTask);
                 } else {
                     newTask.id = Date.now().toString();
                     tasks.push(newTask);
-                    localStorage.setItem('taskReminders_tasks', JSON.stringify([...tasks, ...archivedTasks]));
+                    localStorage.setItem('taskReminders_tasks', JSON.stringify(tasks));
                     render();
                 }
                 showNotification('Task added! ✓', 'success');
@@ -977,69 +804,14 @@
             closeAddTask();
         }
 
-        // ── Archive ───────────────────────────────────────────────────────
-        async function archiveTask(id) {
-            const update = { archived: true, archivedAt: new Date().toISOString() };
-            if (CONFIGURED) {
-                await db.collection('tasks').doc(id).update(update);
-            } else {
-                const t = tasks.find(t => (t._id || t.id) === id);
-                if (t) { Object.assign(t, update); archivedTasks.push(t); }
-                tasks = tasks.filter(t => (t._id || t.id) !== id);
-                localStorage.setItem('taskReminders_tasks', JSON.stringify([...tasks, ...archivedTasks]));
-                render();
-            }
-            showNotification('Task archived', 'success');
-        }
-
-        // ── Restore modal ─────────────────────────────────────────────────
-        function openRestoreModal(id) {
-            restoringTaskId = id;
-            const now = new Date();
-            now.setHours(now.getHours() + 1, 0, 0, 0);
-            document.getElementById('restoreDateTime').value      = now.toISOString().slice(0, 16);
-            document.getElementById('restoreReminderValue').value = '30';
-            document.getElementById('restoreReminderUnit').value  = 'minutes';
-            document.getElementById('restoreModal').style.display = 'block';
-        }
-        function closeRestore() {
-            restoringTaskId = null;
-            document.getElementById('restoreModal').style.display = 'none';
-        }
-        async function confirmRestore() {
-            const datetime      = document.getElementById('restoreDateTime').value;
-            const reminderValue = parseInt(document.getElementById('restoreReminderValue').value, 10);
-            const reminderUnit  = document.getElementById('restoreReminderUnit').value;
-            if (!datetime) { showNotification('Please select a date and time', 'error'); return; }
-
-            const update = {
-                datetime, reminderValue, reminderUnit,
-                reminderTime: calcReminderTime(datetime, reminderValue, reminderUnit),
-                archived: false, archivedAt: null, notified: false,
-            };
-            if (CONFIGURED) {
-                await db.collection('tasks').doc(restoringTaskId).update(update);
-            } else {
-                const t = archivedTasks.find(t => (t._id || t.id) === restoringTaskId);
-                if (t) { Object.assign(t, update); tasks.push(t); }
-                archivedTasks = archivedTasks.filter(t => (t._id || t.id) !== restoringTaskId);
-                localStorage.setItem('taskReminders_tasks', JSON.stringify([...tasks, ...archivedTasks]));
-                render();
-            }
-            closeRestore();
-            switchView('active');
-            showNotification('Task restored! ✓', 'success');
-        }
-
         // ── Delete ────────────────────────────────────────────────────────
         async function deleteTask(id) {
-            if (!confirm('Permanently delete this task?')) return;
+            if (!confirm('Delete this task?')) return;
             if (CONFIGURED) {
                 await db.collection('tasks').doc(id).delete();
             } else {
-                tasks         = tasks.filter(t =>         (t._id || t.id) !== id);
-                archivedTasks = archivedTasks.filter(t => (t._id || t.id) !== id);
-                localStorage.setItem('taskReminders_tasks', JSON.stringify([...tasks, ...archivedTasks]));
+                tasks = tasks.filter(t => (t._id || t.id) !== id);
+                localStorage.setItem('taskReminders_tasks', JSON.stringify(tasks));
                 render();
             }
             showNotification('Task deleted', 'success');
@@ -1077,7 +849,7 @@
             setTimeout(() => el.classList.remove('show'), 3000);
         }
 
-        // ── Backup reminder check (when page is open) ─────────────────────
+        // ── Reminder check (backup when page is open) ─────────────────────
         function checkRemindersLocally() {
             if (!checkSettings()) return;
             const now = new Date();
@@ -1089,7 +861,7 @@
                         db.collection('tasks').doc(task._id).update({ notified: true });
                     } else {
                         task.notified = true;
-                        localStorage.setItem('taskReminders_tasks', JSON.stringify([...tasks, ...archivedTasks]));
+                        localStorage.setItem('taskReminders_tasks', JSON.stringify(tasks));
                     }
                 }
             });

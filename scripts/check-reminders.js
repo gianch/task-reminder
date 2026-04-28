@@ -77,9 +77,6 @@ async function main() {
     } else {
         console.log('No reminders were due.');
     }
-
-    // 5. Clean up archived tasks older than 30 days
-    await cleanupArchived();
 }
 
 // ── WhatsApp via CallMeBot ────────────────────────────────────────────────────
@@ -114,33 +111,6 @@ function sendWhatsApp(task, phone, apiKey) {
             });
         }).on('error', reject);
     });
-}
-
-// ── Auto-delete archived tasks older than 30 days ────────────────────────────
-async function cleanupArchived() {
-    const snapshot = await db.collection('tasks')
-        .where('archived', '==', true)
-        .get();
-
-    if (snapshot.empty) return;
-
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 30);
-
-    const toDelete = snapshot.docs.filter(doc => {
-        const at = doc.data().archivedAt;
-        return at && new Date(at) < cutoff;
-    });
-
-    if (toDelete.length === 0) {
-        console.log('No archived tasks old enough to delete.');
-        return;
-    }
-
-    const batch = db.batch();
-    toDelete.forEach(doc => batch.delete(doc.ref));
-    await batch.commit();
-    console.log(`🗑  Deleted ${toDelete.length} archived task(s) older than 30 days.`);
 }
 
 // ── Run ───────────────────────────────────────────────────────────────────────
