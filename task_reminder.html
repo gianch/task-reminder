@@ -780,11 +780,13 @@
             };
 
             if (editingTaskId) {
+                // Always reset notified so the new reminderTime fires correctly
+                const editPayload = { ...payload, notified: false };
                 if (CONFIGURED) {
-                    await db.collection('tasks').doc(editingTaskId).update(payload);
+                    await db.collection('tasks').doc(editingTaskId).update(editPayload);
                 } else {
                     const t = tasks.find(t => (t._id || t.id) === editingTaskId);
-                    if (t) Object.assign(t, payload);
+                    if (t) Object.assign(t, editPayload);
                     localStorage.setItem('taskReminders_tasks', JSON.stringify(tasks));
                     render();
                 }
