@@ -541,16 +541,27 @@
             tasks    = JSON.parse(localStorage.getItem('taskReminders_tasks'))    || [];
             checkSettings();
             render();
-            setInterval(checkRemindersLocally, 60000);
-            checkRemindersLocally();
+            startReminderPolling();
             showNotification('⚠️ Firebase not set up — running locally', 'error');
+        }
+
+        // Track whether both Firestore streams have delivered their first snapshot
+        let _tasksReady    = false;
+        let _settingsReady = false;
+        function _onBothReady() {
+            if (!_tasksReady || !_settingsReady) return;
+            checkRemindersLocally(); // first check the moment everything is loaded
+            startReminderPolling();
         }
 
         function bootFirebase() {
             db.collection('tasks').onSnapshot(snapshot => {
                 tasks = snapshot.docs.map(doc => ({ ...doc.data(), _id: doc.id }));
                 render();
-                checkRemindersLocally();
+                _tasksReady = true;
+                _onBothReady();
+                // Also check on every subsequent task change (e.g. after an edit)
+                if (_settingsReady) checkRemindersLocally();
             });
             db.collection('config').doc('settings').onSnapshot(doc => {
                 if (doc.exists) {
@@ -559,7 +570,20 @@
                     document.getElementById('apiKey').value        = settings.apiKey        || '';
                 }
                 checkSettings();
+                _settingsReady = true;
+                _onBothReady();
             });
+        }
+
+        function startReminderPolling() {
+            // Check every 30 s for better precision than the GitHub Actions cron
+            setInterval(checkRemindersLocally, 30000);
+
+            // Also fire immediately whenever the user brings the tab/app to the foreground
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) checkRemindersLocally();
+            });
+            window.addEventListener('focus', checkRemindersLocally);
         }
 
         // ── Helpers ───────────────────────────────────────────────────────
