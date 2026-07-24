@@ -3,9 +3,7 @@ name: Send WhatsApp Reminders
 # Runs every 5 minutes regardless of whether you have the page open.
 # GitHub Actions is the primary reminder delivery mechanism.
 on:
-  schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch: # lets you trigger manually from the Actions tab
+  workflow_dispatch: # trigger manually from the Actions tab if needed
 
 jobs:
   check-reminders:
